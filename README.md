@@ -67,6 +67,20 @@ python -m phantom --demo --no-tunnel
 
 Demo không capture màn hình thật và không gửi input vào hệ điều hành.
 
+## Remote desktop bằng GitHub Actions
+
+Muốn remote máy CI tạm thời thay vì PC ở nhà:
+
+1. Vào **Actions → Remote desktop (PhantomPlay) → Run workflow**.
+2. Chọn `both`, `windows-latest` hoặc `ubuntu-latest`, thời gian, độ phân giải, FPS.
+3. Chờ bước **Wait for public URL and verify stream** thành công.
+4. Lấy link trong **Job Summary**; mật khẩu nằm trong artifact `phantom-remote-...` (1 ngày)
+   hoặc trong repository secret `PHANTOM_REMOTE_PASSWORD` nếu bạn đã đặt.
+5. **Cancel workflow** để dừng ngay.
+
+Ubuntu chạy XFCE trên Xvfb; Windows dùng desktop interactive của hosted runner. Đây là máy CI
+tạm thời, không có GPU gaming, không phải dịch vụ luôn-on. Chi tiết: [`docs/GITHUB_ACTIONS.md`](docs/GITHUB_ACTIONS.md).
+
 ## Mật khẩu
 
 Thứ tự ưu tiên:

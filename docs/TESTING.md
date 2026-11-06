@@ -16,6 +16,8 @@ Covered:
 - Demo HTTP login flow and authenticated WebSocket.
 - Real FFmpeg demo encode → binary config/keyframe received by client.
 - JS syntax (`node --check`) and shell syntax (`bash -n`) in CI.
+- Actions helper unit tests + workflow YAML/manual-trigger/retention checks.
+- Local Linux X11 smoke: Xvfb + window manager + x11grab → H.264 config/keyframe, XTest input.
 
 ## Manual checklist on a real PC
 

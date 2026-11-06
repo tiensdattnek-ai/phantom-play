@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.1.0 — 2026-11-06
+
+GitHub Actions remote desktop.
+
+- New manual workflow `Remote desktop (PhantomPlay)` for `windows-latest` and `ubuntu-latest`.
+- Ubuntu provisions Xvfb + XFCE; Windows uses the hosted interactive desktop.
+- `scripts/actions_remote.py` starts host/tunnel, verifies public login + H.264 keyframe,
+  writes Job Summary and short-lived connection artifact, keeps session alive, cleans up.
+- Random password masked in logs; optional repository secret `PHANTOM_REMOTE_PASSWORD`.
+- View-only, resolution/FPS/duration inputs; CPU x264 encoding; no public RDP/VNC.
+- Added `psutil`, `--no-qr`, Actions docs and workflow/helper tests.
+
 ## 1.0.0 — 2026-11-06
 
 Initial premium browser remote-play client.

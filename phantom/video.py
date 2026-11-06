@@ -27,7 +27,8 @@ def monitor_bounds(settings: Settings) -> tuple[int, int, int, int]:
     try:
         import mss
 
-        with mss.mss() as sct:
+        MSS = getattr(mss, "MSS", None) or mss.mss
+        with MSS() as sct:
             mons = sct.monitors[1:]
             idx = max(0, min(len(mons) - 1, settings.monitor - 1))
             m = mons[idx]

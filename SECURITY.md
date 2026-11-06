@@ -31,6 +31,19 @@ Video/audio/input đi trực tiếp từ host tới browser qua đường hầm 
 PhantomPlay không có server trung gian của dự án để lưu stream.
 Tuy nhiên Cloudflare vẫn là nhà cung cấp hạ tầng trung gian; hãy đọc điều khoản của họ.
 
+## GitHub Actions remote desktop
+
+Workflow `Remote desktop (PhantomPlay)` tạo endpoint công khai tạm thời trên runner CI.
+
+- Chỉ chạy thủ công (`workflow_dispatch`), không chạy trên push/PR.
+- Không mở RDP/VNC public; chỉ HTTPS/WSS qua Quick Tunnel tới PhantomPlay có mật khẩu.
+- Mật khẩu ngẫu nhiên được mask trong log và chỉ upload vào artifact connection nếu bật
+  `credentials_artifact`. Artifact này nhạy cảm, retention 1 ngày. Với repo public, nên tắt
+  artifact mật khẩu và dùng repository secret `PHANTOM_REMOTE_PASSWORD`.
+- Runner là máy tạm thời nhưng vẫn có thể chạy lệnh với quyền của job. Không đưa secret cá nhân,
+  không đăng nhập tài khoản riêng, không dùng để mining/proxy công cộng/dịch vụ luôn-on.
+- Cancel workflow để dừng; GitHub hủy VM khi job kết thúc.
+
 ## Báo cáo lỗ hổng
 
 Đừng mở issue công khai kèm mật khẩu/token/link đang sống.

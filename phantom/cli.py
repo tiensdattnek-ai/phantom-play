@@ -27,6 +27,7 @@ def parse_args(argv=None) -> argparse.Namespace:
     p = argparse.ArgumentParser(prog="phantom", description=f"{PRODUCT} {__version__} — remote play trong trình duyệt")
     p.add_argument("--demo", action="store_true", help="Màn hình giả lập an toàn, không capture/điều khiển máy thật")
     p.add_argument("--no-tunnel", action="store_true", help="Chỉ chạy local, không mở Cloudflare")
+    p.add_argument("--no-qr", action="store_true", help="Không in QR code ra console (hữu ích cho CI)")
     p.add_argument("--host", default="127.0.0.1")
     p.add_argument("--port", type=int, default=8787)
     p.add_argument("--password-file", type=Path, help="Đọc mật khẩu từ dòng đầu của file (không lưu mật khẩu vào repo)")
@@ -183,7 +184,7 @@ async def amain(argv=None) -> int:
         RUNTIME.mkdir(exist_ok=True)
         session_file.write_text(json.dumps({"url": url, "port": s.port, "pid": os.getpid(), "started": time.time(), "demo": s.demo}, indent=2), encoding="utf-8")
         print_box(["LINK REMOTE:", url, "", "Mật khẩu: xem lúc khởi động ở trên", "Ctrl+C để dừng và thu hồi link"])
-        if public_url:
+        if public_url and not args.no_qr:
             print_qr(public_url)
         print("Giữ cửa sổ này mở. Tắt máy/đóng host thì link sẽ mất.")
         if tunnel:

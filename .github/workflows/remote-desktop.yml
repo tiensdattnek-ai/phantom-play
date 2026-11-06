@@ -1,0 +1,172 @@
+name: Remote desktop (PhantomPlay)
+
+# Manual-only: a remote desktop consumes runner minutes and exposes a temporary
+# public endpoint. Never start it automatically on push/PR from untrusted code.
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Máy muốn remote"
+        type: choice
+        default: both
+        options:
+          - both
+          - windows-latest
+          - ubuntu-latest
+      minutes:
+        description: "Thời gian phiên (phút). Job GitHub-hosted tối đa ~6 giờ."
+        type: choice
+        default: "30"
+        options:
+          - "15"
+          - "30"
+          - "60"
+          - "120"
+          - "240"
+          - "330"
+      resolution:
+        description: "Độ phân giải stream"
+        type: choice
+        default: 1280x720
+        options:
+          - 1280x720
+          - 1600x900
+          - 1920x1080
+      fps:
+        description: "FPS mục tiêu (CPU runner, không phải GPU gaming)"
+        type: choice
+        default: "24"
+        options:
+          - "15"
+          - "24"
+          - "30"
+      view_only:
+        description: "Chỉ xem, không điều khiển chuột/phím"
+        type: boolean
+        default: false
+      audio:
+        description: "Âm thanh (Ubuntu PulseAudio null sink; Windows CI mặc định tắt)"
+        type: boolean
+        default: false
+      credentials_artifact:
+        description: "Upload mật khẩu ngẫu nhiên vào artifact riêng tư 1 ngày. Nếu tắt, phải đặt secret PHANTOM_REMOTE_PASSWORD."
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  remote:
+    name: Remote ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        os: ${{ fromJSON(inputs.target == 'both' && '["ubuntu-latest","windows-latest"]' || format('["{0}"]', inputs.target)) }}
+    concurrency:
+      group: phantom-remote-${{ github.ref }}-${{ matrix.os }}
+      cancel-in-progress: true
+    env:
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: utf-8
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Ubuntu desktop
+        if: runner.os == 'Linux'
+        shell: bash
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            xvfb xfce4 xfce4-terminal xfce4-panel xfdesktop4 xfwm4 \
+            dbus-x11 x11-utils x11-xserver-utils xdotool xclip pulseaudio pulseaudio-utils
+
+      - name: Install Python dependencies
+        shell: pwsh
+        run: |
+          python -m pip install -U pip
+          python -m pip install -r requirements.txt
+
+      - name: Download FFmpeg + cloudflared
+        shell: pwsh
+        run: python scripts/bootstrap.py
+
+      - name: Start remote desktop
+        shell: pwsh
+        env:
+          INPUT_TARGET: ${{ matrix.os }}
+          INPUT_MINUTES: ${{ inputs.minutes }}
+          INPUT_RESOLUTION: ${{ inputs.resolution }}
+          INPUT_FPS: ${{ inputs.fps }}
+          INPUT_VIEW_ONLY: ${{ inputs.view_only }}
+          INPUT_AUDIO: ${{ inputs.audio }}
+          INPUT_CREDENTIALS_ARTIFACT: ${{ inputs.credentials_artifact }}
+          PHANTOM_REMOTE_PASSWORD: ${{ secrets.PHANTOM_REMOTE_PASSWORD }}
+        run: |
+          $argv = @(
+            'scripts/actions_remote.py', 'start',
+            '--target', $env:INPUT_TARGET,
+            '--minutes', $env:INPUT_MINUTES,
+            '--resolution', $env:INPUT_RESOLUTION,
+            '--fps', $env:INPUT_FPS
+          )
+          if ($env:INPUT_VIEW_ONLY -eq 'true') { $argv += '--view-only' }
+          if ($env:INPUT_AUDIO -eq 'true') { $argv += '--audio' }
+          if ($env:INPUT_CREDENTIALS_ARTIFACT -eq 'true') { $argv += '--credentials-artifact' }
+          python @argv
+
+      - name: Wait for public URL and verify stream
+        shell: pwsh
+        timeout-minutes: 6
+        run: python scripts/actions_remote.py wait --timeout 240
+
+      - name: Upload connection info (contains password if enabled)
+        if: ${{ inputs.credentials_artifact }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: phantom-remote-${{ matrix.os }}-${{ github.run_id }}
+          path: session-output/credentials/
+          retention-days: 1
+          if-no-files-found: error
+
+      - name: Upload preflight screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phantom-preflight-${{ matrix.os }}-${{ github.run_id }}
+          path: session-output/logs/preflight.png
+          retention-days: 1
+          if-no-files-found: ignore
+
+      - name: Keep session alive
+        shell: pwsh
+        timeout-minutes: 360
+        env:
+          INPUT_MINUTES: ${{ inputs.minutes }}
+        run: python scripts/actions_remote.py keep --minutes $env:INPUT_MINUTES
+
+      - name: Cleanup
+        if: always()
+        shell: pwsh
+        run: python scripts/actions_remote.py cleanup
+
+      - name: Upload session logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phantom-logs-${{ matrix.os }}-${{ github.run_id }}
+          path: session-output/logs/
+          retention-days: 1
+          if-no-files-found: ignore

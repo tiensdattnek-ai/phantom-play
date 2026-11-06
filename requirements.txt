@@ -2,5 +2,6 @@ aiohttp>=3.13,<4
 mss>=10,<11
 Pillow>=11,<13
 qrcode>=8,<9
+psutil>=5.9,<8
 python-xlib>=0.33; sys_platform == 'linux'
 pyaudiowpatch>=0.2.12; sys_platform == 'win32'

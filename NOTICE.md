@@ -14,8 +14,8 @@ are not committed to this repository:
   is bundled by vgamepad on Windows. See https://github.com/nefarius/ViGEmBus and
   https://github.com/nefarius/ViGEmClient.
 - Python dependencies retain their own licenses: aiohttp (Apache-2.0), mss (LGPL-3.0),
-  Pillow (MIT-CMU), qrcode (BSD), python-xlib (LGPL-2.1), pyaudiowpatch (MIT),
-  vgamepad (MIT).
+  Pillow (MIT-CMU), qrcode (BSD), psutil (BSD-3-Clause), python-xlib (LGPL-2.1),
+  pyaudiowpatch (MIT), vgamepad (MIT).
 
 If you redistribute a bundle that includes FFmpeg/cloudflared/driver installers, you must
 comply with each upstream license and provide corresponding source/offers where required.

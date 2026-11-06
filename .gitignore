@@ -5,6 +5,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 runtime/
+session-output/
 .env
 *.log
 .DS_Store
