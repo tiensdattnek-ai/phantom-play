@@ -34,6 +34,15 @@ Covered:
 11. Idle timeout closes viewers; second viewer is view-only until taking control.
 12. MJPEG fallback works in a browser without WebCodecs.
 
+## GitHub Actions verification
+
+On 2026-11-06, `Remote desktop (PhantomPlay)` was dispatched against both hosted runners:
+https://github.com/tiensdattnek-ai/phantom-play/actions/runs/42236176719
+
+Both `ubuntu-latest` and `windows-latest` reached **Keep session alive** after the helper verified
+public health, login, and an H.264 config/keyframe over the Quick Tunnel. The test run was cancelled
+immediately after readiness to avoid consuming the full session; generated-password artifacts were deleted.
+
 ## Known untested areas in the original sandbox
 
 Windows SendInput/capture, ViGEmBus driver installation, WASAPI loopback, physical X11 desktop,

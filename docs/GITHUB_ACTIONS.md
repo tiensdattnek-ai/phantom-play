@@ -84,6 +84,16 @@ nếu bạn bật `credentials_artifact`.
 - Không đăng nhập tài khoản cá nhân, không lưu token/secret lên runner.
 - Không dùng workflow này để lách giới hạn tài nguyên, mining, proxy công cộng hay dịch vụ luôn-on.
 
+## Đã kiểm chứng thực tế
+
+Ngày 2026-11-06, workflow được chạy thử trên cả hai runner:
+https://github.com/tiensdattnek-ai/phantom-play/actions/runs/42236176719
+
+Cả `Remote ubuntu-latest` và `Remote windows-latest` đều đi tới bước **Keep session alive**
+(sau khi public URL + login + H.264 keyframe được xác minh và artifact connection đã upload).
+Phiên thử nghiệm được cancel ngay để tiết kiệm phút runner; artifact chứa mật khẩu của lần chạy
+thử đã được xóa.
+
 ## Khắc phục sự cố
 
 **Không có artifact connection**
