@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#0a0e14" />
+  <meta name="color-scheme" content="dark" />
+  <title>PhantomPlay — Remote Play</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/static/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><path d="M17 9h-1V7a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2zm-7-2a2 2 0 1 1 4 0v2h-4V7zm3 10v2h-2v-2a2 2 0 1 1 2 0z"/></symbol>
+    <symbol id="i-full" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></symbol>
+    <symbol id="i-gamepad" viewBox="0 0 24 24"><path d="M21 6H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zM11 13H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></symbol>
+    <symbol id="i-keyboard" viewBox="0 0 24 24"><path d="M20 5H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/></symbol>
+    <symbol id="i-mouse" viewBox="0 0 24 24"><path d="M13 2v8h8a8 8 0 0 0-8-8zm-2 0a8 8 0 0 0-8 8v4a8 8 0 0 0 16 0v-2h-8V2z"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M19.14 12.94a7.49 7.49 0 0 0 0-1.88l2.03-1.58-2-3.46-2.39.96a7.03 7.03 0 0 0-1.62-.94L14.8 2h-4l-.36 2.54c-.58.22-1.12.52-1.62.94l-2.39-.96-2 3.46 2.03 1.58a7.49 7.49 0 0 0 0 1.88L2.43 14.5l2 3.46 2.39-.96c.5.42 1.04.72 1.62.94L10.8 22h4l.36-2.54c.58-.22 1.12-.52 1.62-.94l2.39.96 2-3.46-2.03-1.56zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zm-2.5-8v2.06a6 6 0 0 1 0 11.88V20a8 8 0 0 0 0-16z"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 17h-2v-2h2v2zm1.07-7.75-.9.92A3.4 3.4 0 0 0 13 15h-2v-.5a4 4 0 0 1 1.17-2.83l1.24-1.26A2 2 0 1 0 10 9H8a4 4 0 1 1 6.07 3.25z"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M9 3 7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9zm3 15a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></symbol>
+    <symbol id="i-exit" viewBox="0 0 24 24"><path d="M10 17v-2H5V9h5V7l5 5-5 5zm2-14h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7v-2h7V5h-7V3z"/></symbol>
+    <symbol id="i-touch" viewBox="0 0 24 24"><path d="M9 11V4a2 2 0 1 1 4 0v6h1V6a2 2 0 1 1 4 0v6h1V9a2 2 0 1 1 4 0v7a6 6 0 0 1-6 6h-2a7 7 0 0 1-7-7v-3a2 2 0 1 1 4 0v1h1z"/></symbol>
+  </svg>
+
+  <section id="login-view" class="login-view">
+    <div class="login-bg"></div>
+    <div class="login-card">
+      <div class="brand">
+        <div class="brand-mark"><svg><use href="#i-play"/></svg></div>
+        <div>
+          <h1>PhantomPlay</h1>
+          <p>Remote play trong trình duyệt · H.264 độ trễ thấp</p>
+        </div>
+      </div>
+      <div class="host-line">
+        <span class="dot"></span>
+        <span id="login-host">Đang tìm host…</span>
+        <span id="demo-badge" class="badge hidden">DEMO</span>
+      </div>
+      <form id="login-form" autocomplete="on">
+        <label for="password">Mật khẩu phiên</label>
+        <div class="password-row">
+          <svg class="field-icon"><use href="#i-lock"/></svg>
+          <input id="password" name="password" type="password" required minlength="6" maxlength="256"
+                 autocomplete="current-password" placeholder="Nhập mật khẩu host đã đặt" />
+        </div>
+        <button id="login-btn" class="primary" type="submit">
+          <span>Kết nối an toàn</span><svg><use href="#i-play"/></svg>
+        </button>
+        <p id="login-error" class="error" role="alert"></p>
+      </form>
+      <div class="login-features">
+        <div><strong>Trackpad</strong><span>Chuột tương đối, tap/click/scroll</span></div>
+        <div><strong>Gamepad</strong><span>Ảo XInput + tay cầm vật lý</span></div>
+        <div><strong>Mobile</strong><span>Fullscreen, phím ảo, cử chỉ</span></div>
+      </div>
+      <p class="fine">Link Cloudflare Quick Tunnel là tạm thời và sẽ mất khi host tắt. Không chia sẻ mật khẩu công khai.</p>
+    </div>
+  </section>
+
+  <section id="app-view" class="app-view hidden">
+    <header class="topbar" id="topbar">
+      <div class="top-left">
+        <div class="brand small">
+          <div class="brand-mark"><svg><use href="#i-play"/></svg></div>
+          <div><h1>PhantomPlay</h1><p id="host-name">host</p></div>
+        </div>
+        <span id="demo-badge-app" class="badge hidden">DEMO</span>
+        <span id="control-badge" class="badge control">Đang điều khiển</span>
+      </div>
+      <div class="top-stats" id="top-stats">
+        <span class="stat"><b id="stat-fps">0</b> fps</span>
+        <span class="stat"><b id="stat-rtt">–</b> ms</span>
+        <span class="stat"><b id="stat-mbps">0</b> Mbps</span>
+        <span class="stat"><b id="stat-res">–</b></span>
+        <span class="stat enc" id="stat-enc">–</span>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" data-action="keyboard" title="Bàn phím"><svg><use href="#i-keyboard"/></svg></button>
+        <button class="icon-btn" data-action="gamepad" title="Gamepad"><svg><use href="#i-gamepad"/></svg></button>
+        <button class="icon-btn" data-action="trackpad" title="Trackpad"><svg><use href="#i-touch"/></svg></button>
+        <button class="icon-btn" data-action="audio" title="Âm thanh"><svg><use href="#i-volume"/></svg></button>
+        <button class="icon-btn" data-action="screenshot" title="Chụp màn hình"><svg><use href="#i-camera"/></svg></button>
+        <button class="icon-btn" data-action="fullscreen" title="Toàn màn hình"><svg><use href="#i-full"/></svg></button>
+        <button class="icon-btn" data-action="settings" title="Cài đặt"><svg><use href="#i-settings"/></svg></button>
+        <button class="icon-btn" data-action="help" title="Trợ giúp"><svg><use href="#i-help"/></svg></button>
+        <button class="icon-btn danger" data-action="disconnect" title="Ngắt kết nối"><svg><use href="#i-exit"/></svg></button>
+      </div>
+    </header>
+
+    <main class="stage" id="stage">
+      <canvas id="screen" width="1280" height="720"></canvas>
+      <div id="connect-overlay" class="overlay">
+        <div class="spinner"></div>
+        <h2 id="connect-title">Đang kết nối stream…</h2>
+        <p id="connect-detail">Chờ keyframe H.264. Lần đầu có thể mất ~1 giây.</p>
+        <button id="retry-btn" class="primary hidden">Thử lại</button>
+      </div>
+      <div id="pointer-lock-hint" class="floating-hint hidden">Đã khóa chuột · Esc để thoát</div>
+      <div id="touch-hint" class="floating-hint bottom hidden">1 ngón: di chuột · chạm: click · 2 ngón: cuộn · giữ: kéo</div>
+
+      <div id="special-keys" class="special-keys hidden">
+        <button data-key="Escape">Esc</button><button data-key="Tab">Tab</button>
+        <button data-key="ControlLeft">Ctrl</button><button data-key="AltLeft">Alt</button>
+        <button data-key="ShiftLeft">Shift</button><button data-key="MetaLeft">Win</button>
+        <button data-key="ArrowUp">↑</button><button data-key="ArrowLeft">←</button>
+        <button data-key="ArrowDown">↓</button><button data-key="ArrowRight">→</button>
+        <button data-key="Enter">Enter</button><button data-key="Backspace">⌫</button>
+        <button data-text=" ">Space</button>
+      </div>
+      <input id="mobile-input" class="mobile-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" />
+    </main>
+
+    <section id="trackpad-panel" class="trackpad-panel hidden">
+      <div class="trackpad-head"><span>Trackpad</span><button class="chip" data-action="trackpad-close">Đóng</button></div>
+      <div id="trackpad" class="trackpad" aria-label="Trackpad cảm ứng"></div>
+      <div class="trackpad-buttons">
+        <button id="tp-left" class="tp-btn">Chuột trái</button>
+        <button id="tp-drag" class="tp-btn">Giữ kéo</button>
+        <button id="tp-right" class="tp-btn">Chuột phải</button>
+      </div>
+    </section>
+
+    <section id="gamepad-overlay" class="gamepad-overlay hidden" aria-label="Gamepad ảo">
+      <div class="gp-shoulders">
+        <button class="gp-btn shoulder" data-gp="4">LB</button>
+        <button class="gp-btn trigger" data-gp="6">LT</button>
+        <button class="gp-btn small" data-gp="8">VIEW</button>
+        <button class="gp-btn small" data-gp="9">MENU</button>
+        <button class="gp-btn trigger" data-gp="7">RT</button>
+        <button class="gp-btn shoulder" data-gp="5">RB</button>
+      </div>
+      <div class="gp-left">
+        <div class="dpad">
+          <button class="gp-btn dpad-up" data-gp="12">▲</button>
+          <button class="gp-btn dpad-left" data-gp="14">◀</button>
+          <button class="gp-btn dpad-right" data-gp="15">▶</button>
+          <button class="gp-btn dpad-down" data-gp="13">▼</button>
+        </div>
+        <div class="stick" data-stick="left"><div class="stick-knob"></div><span>L</span></div>
+      </div>
+      <div class="gp-right">
+        <div class="stick" data-stick="right"><div class="stick-knob"></div><span>R</span></div>
+        <div class="abxy">
+          <button class="gp-btn y" data-gp="3">Y</button>
+          <button class="gp-btn x" data-gp="2">X</button>
+          <button class="gp-btn a" data-gp="0">A</button>
+          <button class="gp-btn b" data-gp="1">B</button>
+        </div>
+      </div>
+    </section>
+
+    <aside id="settings" class="drawer hidden">
+      <div class="drawer-head"><h2>Cài đặt</h2><button class="icon-btn" data-action="settings-close">✕</button></div>
+      <div class="drawer-body">
+        <label>Chất lượng
+          <select id="set-preset">
+            <option value="data_saver">Tiết kiệm · 720p30 · 3 Mbps</option>
+            <option value="balanced">Cân bằng · 1080p60 · 8 Mbps</option>
+            <option value="ultra">Ultra · 1080p60 · 16 Mbps</option>
+            <option value="lan">LAN · 1080p120 · 30 Mbps</option>
+            <option value="custom">Tùy chỉnh</option>
+          </select>
+        </label>
+        <div class="grid2">
+          <label>Rộng<input id="set-width" type="number" min="320" max="3840" step="2" /></label>
+          <label>Cao<input id="set-height" type="number" min="180" max="2160" step="2" /></label>
+          <label>FPS<input id="set-fps" type="number" min="15" max="120" /></label>
+          <label>Bitrate (kbps)<input id="set-bitrate" type="number" min="1000" max="50000" step="500" /></label>
+        </div>
+        <label>Codec
+          <select id="set-codec"><option value="h264">H.264 / WebCodecs (khuyến nghị)</option><option value="mjpeg">MJPEG tương thích</option></select>
+        </label>
+        <label class="check"><input id="set-adaptive" type="checkbox" /> Tự thích ứng bitrate (thử nghiệm)</label>
+        <label class="check"><input id="set-audio" type="checkbox" checked /> Âm thanh hệ thống</label>
+        <label>Âm lượng<input id="set-volume" type="range" min="0" max="100" value="80" /></label>
+        <label>Chế độ chuột
+          <select id="set-mouse"><option value="direct">Chạm trực tiếp</option><option value="trackpad">Trackpad tương đối</option><option value="pointerlock">Khóa chuột (FPS)</option></select>
+        </label>
+        <label>Độ nhạy chuột<input id="set-sens" type="range" min="20" max="300" value="100" /></label>
+        <label class="check"><input id="set-natural" type="checkbox" /> Cuộn tự nhiên (đảo chiều)</label>
+        <label>Gamepad
+          <select id="set-gamepad"><option value="virtual">Thiết bị ảo XInput</option><option value="keyboard">Ánh xạ phím/chuột</option></select>
+        </label>
+        <label class="check"><input id="set-stats" type="checkbox" checked /> Hiện thống kê</label>
+        <label class="check"><input id="set-wakelock" type="checkbox" checked /> Giữ màn hình luôn bật</label>
+        <button id="apply-quality" class="primary">Áp dụng chất lượng</button>
+        <button id="take-control" class="secondary">Giành quyền điều khiển</button>
+        <p class="fine" id="capability-note"></p>
+      </div>
+    </aside>
+
+    <aside id="stats-panel" class="stats-panel hidden">
+      <h3>Thống kê</h3>
+      <dl id="stats-list"></dl>
+    </aside>
+
+    <div id="help-modal" class="modal hidden">
+      <div class="modal-card">
+        <div class="drawer-head"><h2>Hướng dẫn nhanh</h2><button class="icon-btn" data-action="help-close">✕</button></div>
+        <div class="help-grid">
+          <div><h3>PC</h3><p>Click vào màn hình để bắt phím. Bật “Khóa chuột (FPS)” để chơi game góc nhìn thứ nhất. Phím đặc biệt: Esc, Tab, Ctrl, Alt, Shift, Win, F1–F12.</p></div>
+          <div><h3>Mobile / Trackpad</h3><p>1 ngón di chuột tương đối. Chạm = click trái. Chạm 2 ngón = click phải. Vuốt 2 ngón = cuộn. Chạm giữ rồi kéo = giữ chuột trái. Nút “Giữ kéo” để drag-lock.</p></div>
+          <div><h3>Gamepad</h3><p>Cắm tay cầm vật lý (Xbox/PS) rồi bấm nút để browser nhận. Hoặc bật gamepad ảo. Nếu host chưa có ViGEmBus/uinput, chọn ánh xạ phím/chuột.</p></div>
+          <div><h3>Bảo mật</h3><p>Link là tạm thời. Host tắt thì link mất. Không có mở port inbound. Mật khẩu bắt buộc. Clipboard mặc định tắt. Ctrl+C trên host để dừng ngay.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="toasts" class="toasts" aria-live="polite"></div>
+    <footer class="statusbar">
+      <span id="status-text">Sẵn sàng</span>
+      <span class="spacer"></span>
+      <span id="transport-text">WebSocket</span>
+      <span id="session-text"></span>
+    </footer>
+  </section>
+
+  <script type="module" src="/static/app.js"></script>
+</body>
+</html>
