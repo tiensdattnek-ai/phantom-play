@@ -209,6 +209,12 @@ async def amain(argv=None) -> int:
 
 
 def main(argv=None) -> None:
+    # Windows consoles may default to cp1252/cp437; Vietnamese output needs UTF-8.
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
     try:
         raise SystemExit(asyncio.run(amain(argv)))
     except KeyboardInterrupt:
