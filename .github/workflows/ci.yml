@@ -54,3 +54,6 @@ jobs:
         run: |
           python -m phantom --help
           python scripts/actions_remote.py --help
+          python scripts/colab_remote.py --help
+      - name: Build Colab notebook
+        run: python scripts/build_colab_notebook.py --out /tmp/PhantomPlay_Colab.ipynb

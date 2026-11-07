@@ -43,6 +43,18 @@ Both `ubuntu-latest` and `windows-latest` reached **Keep session alive** after t
 public health, login, and an H.264 config/keyframe over the Quick Tunnel. The test run was cancelled
 immediately after readiness to avoid consuming the full session; generated-password artifacts were deleted.
 
+## Colab Premium verification
+
+On 2026-11-07, the Colab helper was smoke-tested on a Linux sandbox with the same core stack:
+
+- Google Chrome `.deb` install succeeded.
+- Xvfb + window manager + Chrome opened `https://example.com`.
+- PhantomPlay `x11grab` produced an authenticated local H.264 config/keyframe.
+- Screenshot showed rendered Chrome content; stop cleaned host/tunnel/ffmpeg/Chrome/desktop/Xvfb.
+- Notebook builder produced a valid self-contained `.ipynb` with an embedded source bundle.
+
+Actual Google Colab quota/GPU/disconnect behavior is not guaranteed by this test.
+
 ## Known untested areas in the original sandbox
 
 Windows SendInput/capture, ViGEmBus driver installation, WASAPI loopback, physical X11 desktop,

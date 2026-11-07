@@ -44,6 +44,16 @@ Workflow `Remote desktop (PhantomPlay)` tạo endpoint công khai tạm thời t
   không đăng nhập tài khoản riêng, không dùng để mining/proxy công cộng/dịch vụ luôn-on.
 - Cancel workflow để dừng; GitHub hủy VM khi job kết thúc.
 
+## Google Colab remote desktop
+
+Notebook Colab tạo desktop tạm thời và in mật khẩu ra output notebook.
+
+- Chỉ dùng runtime Colab của bạn cho dev/test tương tác; không mining/proxy công cộng/always-on.
+- Không đăng nhập tài khoản cá nhân nhạy cảm trên runtime tạm thời.
+- **Clear all outputs** trước khi chia sẻ notebook vì output chứa link + mật khẩu.
+- `stop` xóa mật khẩu cục bộ và đóng tunnel; đóng/đổi runtime Colab cũng hủy môi trường.
+- Notebook nhúng source bundle để tránh phải nhúng GitHub token vào Colab.
+
 ## Báo cáo lỗ hổng
 
 Đừng mở issue công khai kèm mật khẩu/token/link đang sống.

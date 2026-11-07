@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.2.0 — 2026-11-07
+
+Google Colab Premium.
+
+- New self-contained `colab/PhantomPlay_Colab.ipynb`: embedded source bundle, no GitHub token needed in Colab.
+- `scripts/colab_remote.py`: setup/start/keep/stop/show/status/shot/open.
+- Auto-installs XFCE/Xvfb, Google Chrome, Python deps, FFmpeg/cloudflared; opens Chrome in the virtual desktop.
+- Prints remote link + password (text + HTML/QR card), optional public stream verification.
+- Premium options: GPU/NVENC auto, adaptive bitrate, view-only, clipboard, PulseAudio audio, kiosk/app Chrome,
+  Chrome watchdog, screenshot, open extra URLs, keep-alive and cleanup.
+- `scripts/build_colab_notebook.py` regenerates the notebook from source.
+- Docs, security notes, CI smoke and tests for the Colab helper/notebook.
+
 ## 1.1.0 — 2026-11-06
 
 GitHub Actions remote desktop.

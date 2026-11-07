@@ -81,6 +81,19 @@ Muốn remote máy CI tạm thời thay vì PC ở nhà:
 Ubuntu chạy XFCE trên Xvfb; Windows dùng desktop interactive của hosted runner. Đây là máy CI
 tạm thời, không có GPU gaming, không phải dịch vụ luôn-on. Chi tiết: [`docs/GITHUB_ACTIONS.md`](docs/GITHUB_ACTIONS.md).
 
+## Google Colab Premium
+
+Muốn chạy trên Colab, không cần PC ở nhà:
+
+1. Upload `colab/PhantomPlay_Colab.ipynb` lên Google Colab.
+2. Chọn cấu hình, chạy ô **One-click setup + start**.
+3. Notebook tự cài **XFCE + Chrome + PhantomPlay + FFmpeg/cloudflared**, mở Chrome,
+   tạo Cloudflare Quick Tunnel và hiện **link remote + mật khẩu** kèm QR.
+4. Chạy ô **Keep alive**; muốn dừng thì Interrupt rồi chạy **Stop**.
+
+Notebook nhúng sẵn source nên không cần GitHub token trong Colab. Chi tiết:
+[`docs/COLAB.md`](docs/COLAB.md). Colab là runtime tạm thời, không phải dịch vụ luôn-on.
+
 ## Mật khẩu
 
 Thứ tự ưu tiên:
