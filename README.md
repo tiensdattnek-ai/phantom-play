@@ -1,5 +1,7 @@
 # PhantomPlay
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/tiensdattnek-ai/phantom-play/blob/main/colab/PhantomPlay_Colab.ipynb)
+
 Remote play trong trình duyệt, lấy cảm hứng từ workflow noVNC nhưng đi theo hướng **game**:
 H.264 độ trễ thấp bằng WebCodecs, ưu tiên encoder phần cứng, trackpad cảm ứng, gamepad ảo,
 fullscreen/pointer-lock và launcher một chạm.
@@ -83,6 +85,8 @@ tạm thời, không có GPU gaming, không phải dịch vụ luôn-on. Chi ti�
 
 ## Google Colab Premium
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/tiensdattnek-ai/phantom-play/blob/main/colab/PhantomPlay_Colab.ipynb)
+
 Muốn chạy trên Colab, không cần PC ở nhà:
 
 1. Upload `colab/PhantomPlay_Colab.ipynb` lên Google Colab.
@@ -93,6 +97,10 @@ Muốn chạy trên Colab, không cần PC ở nhà:
 
 Notebook nhúng sẵn source nên không cần GitHub token trong Colab. Chi tiết:
 [`docs/COLAB.md`](docs/COLAB.md). Colab là runtime tạm thời, không phải dịch vụ luôn-on.
+
+> Repo đang private: nút **Open in Colab** có thể yêu cầu bạn đăng nhập GitHub và cấp quyền cho Colab
+> đọc repo. Nếu không mở được, tải [`colab/PhantomPlay_Colab.ipynb`](colab/PhantomPlay_Colab.ipynb)
+> hoặc asset từ Release rồi upload lên Colab.
 
 ## Mật khẩu
 

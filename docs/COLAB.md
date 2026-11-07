@@ -1,5 +1,7 @@
 # PhantomPlay Colab Premium
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/tiensdattnek-ai/phantom-play/blob/main/colab/PhantomPlay_Colab.ipynb)
+
 Bản Google Colab nằm ở `colab/PhantomPlay_Colab.ipynb`.
 
 Notebook **self-contained**: nó nhúng sẵn source bundle dạng base64, nên không cần GitHub token
@@ -19,6 +21,8 @@ trong Colab kể cả khi repo GitHub đang private. Chỉ cần upload notebook
 
 ## Cách dùng
 
+0. Bấm nút **Open in Colab** ở trên. Nếu repo private, Colab có thể yêu cầu đăng nhập GitHub và cấp quyền đọc repo.
+   Cách chắc chắn nhất: tải `colab/PhantomPlay_Colab.ipynb` rồi upload lên Colab.
 1. Mở Google Colab, upload `colab/PhantomPlay_Colab.ipynb`.
 2. Ở ô **Cấu hình**:
    - `PASSWORD`: để trống để tự sinh, hoặc nhập mật khẩu ≥ 8 ký tự.

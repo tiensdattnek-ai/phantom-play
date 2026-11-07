@@ -64,6 +64,8 @@ def notebook(b64: str) -> dict:
             """
             # PhantomPlay Colab Premium
 
+            [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/tiensdattnek-ai/phantom-play/blob/main/colab/PhantomPlay_Colab.ipynb)
+
             Remote desktop tạm thời trên Google Colab: **XFCE + Chrome + PhantomPlay + Cloudflare Quick Tunnel**.
 
             - Tự cài XFCE/Xvfb, Google Chrome, Python deps, FFmpeg, cloudflared.

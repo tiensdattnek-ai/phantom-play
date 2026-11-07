@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.1 — 2026-11-07
+
+- Add **Open in Colab** badge/button to README, Colab docs and the notebook itself.
+- Note private-repo Colab auth fallback (download/upload notebook).
+
 ## 1.2.0 — 2026-11-07
 
 Google Colab Premium.
